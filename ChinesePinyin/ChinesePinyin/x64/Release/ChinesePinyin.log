@@ -1,0 +1,17 @@
+﻿  Main.cpp
+  Pinyin.cpp
+C:\Users\jackm\source\repos\ChinesePinyin\ChinesePinyin\Pinyin.cpp(86,19): warning C4244: 'initializing': conversion from '_Elem' to 'char', possible loss of data
+          with
+          [
+              _Elem=wchar_t
+          ]
+C:\Users\jackm\source\repos\ChinesePinyin\ChinesePinyin\Pinyin.cpp(149,19): warning C4244: 'initializing': conversion from '_Elem' to 'char', possible loss of data
+          with
+          [
+              _Elem=wchar_t
+          ]
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 218 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  ChinesePinyin.vcxproj -> C:\Users\jackm\source\repos\ChinesePinyin\x64\Release\ChinesePinyin.exe

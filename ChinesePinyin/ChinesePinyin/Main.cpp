@@ -23,13 +23,15 @@ int main() {
 #endif // defined(WIN32)
 
 
-		string* pinyinInput;
+
+
+		string pinyinInput;
 		
 
 
-		cout << "******MADE BY JACK MECHEM******\n" <<
-			"******PINYIN -- GENORATOR******\n"
-			"******Version - Betta 1.0******\n"
+		cout << "**jackmechem.github.io/Jefrie**\n" <<
+			"**PINYIN -- GENORATOR**\n"
+			"**Version - Betta 1.1**\n"
 			<< endl << endl;
 
 
@@ -38,7 +40,7 @@ int main() {
 		
 
 
-		getline(cin, *pinyinInput); //Console Input that ACTUALLY uses spaces. Otherwize it will not have spaces :)
+		getline(cin, pinyinInput); //Console Input that ACTUALLY uses spaces. Otherwize it will not have spaces :)
 
 #if defined(WIN32)
 		system("cls");
@@ -46,7 +48,7 @@ int main() {
 		cout << "******MADE BY JACK MECHEM******\n" <<
 			" *****PINYIN -- GENORATOR*****\n"
 			<< endl << endl;
-		Pinyin::convertToPinyin(*pinyinInput);
+		Pinyin::convertToPinyin(pinyinInput);
 		cout << endl;
 #if defined(WIN32)
 		system("pause");

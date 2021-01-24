@@ -6,6 +6,8 @@
 #include <Windows.h>
 #include <list>
 #include <wchar.h>
+#include <algorithm>
+#include <vector>
 
 #include "Pinyin.h"
 
@@ -49,96 +51,42 @@ Pinyin::Pinyin() {
 
 
 
-
 wstring Pinyin::convertToPinyin(string pinyinOne) {
 
 	list<wstring> words;
 	wstring word;
 	wstring finalWord;
-
-
-
+	Pinyin pinyin;
+	
 
 	for (auto c : pinyinOne) {
 		if (c == ' ') {
 			words.push_back(word);
 			word = L"";
-			//cout << "Added to list\n";
+			
 		}
 		else {
 			word.push_back(c);
-			//cout << "Added to string\n";
+			
 		}
 	}
 	words.push_back(word);
-	//cout << words.size() << endl;  //Debug List words size
-
-
-
+	
 
 	for (wstring s : words) {//string in the list of words
-
-
-
 
 		if (Pinyin::countVowels(s) == 1) {
 
 			for (char c : s) { //char in each of those words
-				switch (c) {
-				case 'a': {
+				
+				
+
+				if (find(begin(pinyin.vouwls), end(pinyin.vouwls), c) != end(pinyin.vouwls)) {
 					finalWord.append(Pinyin::getPinyinChar(c, Pinyin::findToneFromString(s)));
-					/*wstring testOne = Pinyin::getPinyinChar(c, Pinyin::findToneFromStirng(s));
-					finalWord += testOne;*/
-
-
-					break;
 				}
-
-				case 'e': {
-					finalWord.append(Pinyin::getPinyinChar(c, Pinyin::findToneFromString(s)));
-
-					break;
+				else if (find(begin(pinyin.tones), end(pinyin.tones), c) == end(pinyin.tones)) {
+					finalWord.push_back(c);
 				}
-
-				case 'i': {
-					finalWord.append(Pinyin::getPinyinChar(c, Pinyin::findToneFromString(s)));
-
-					break;
-				}
-				case 'o': {
-					finalWord.append(Pinyin::getPinyinChar(c, Pinyin::findToneFromString(s)));
-
-					break;
-				}
-				case 'u': {
-					finalWord.append(Pinyin::getPinyinChar(c, Pinyin::findToneFromString(s)));
-
-					break;
-				}
-				default:
-
-					switch (c) {
-					case '1':
-
-						break;
-					case '2':
-
-						break;
-					case '3':
-
-						break;
-					case '4':
-
-						break;
-					default:
-						finalWord.push_back(c);
-						break;
-					}
-
-					break;
-				}
-
-
 
 			}
 		}
@@ -150,112 +98,43 @@ wstring Pinyin::convertToPinyin(string pinyinOne) {
 
 				if (medial == false) {
 					if (nonMedial == 0) {
-						switch (c) {
-						case 'i':
-						case 'u':
+						if (find(begin(pinyin.medials), end(pinyin.medials), c) != end(pinyin.medials)) {
 							finalWord.push_back(c);
 							medial = true;
-							break;
-						default:
-							switch (c) {
-							case 'a':
-							case 'e':
-							case 'i':
-							case 'o':
-							case 'u':
-								finalWord.append(Pinyin::getPinyinChar(c, Pinyin::findToneFromString(s)));
-								nonMedial += 1;
-								break;
-							default:
-								switch (c) {
-								case '1':
-								case '2':
-								case '3':
-								case '4':
-									break;
-								default:
-									finalWord.push_back(c);
-									break;
-								}
-								break;
-							}
-							break;
+						}else if (find(begin(pinyin.vouwls), end(pinyin.vouwls), c) != end(pinyin.vouwls)) {
+							finalWord.append(Pinyin::getPinyinChar(c, Pinyin::findToneFromString(s)));
+							nonMedial += 1;
 						}
+						else if (find(begin(pinyin.tones), end(pinyin.tones), c) == end(pinyin.tones)) {
+							finalWord.push_back(c);
+						}				
 					}
 					else if (nonMedial > 0) {
-						switch (c) {
-						case '1':
-						case '2':
-						case '3':
-						case '4':
-							break;
-						default:
+						if (find(begin(pinyin.tones), end(pinyin.tones), c) == end(pinyin.tones)) {
 							finalWord.push_back(c);
-							break;
 						}
 					}
 				}else if (medial == true) {
 					if (nonMedial == 0) {
-						switch (c) {
-						case 'a':
-						case 'e':
-						case 'i':
-						case 'o':
-						case 'u':
-
-
+						if (find(begin(pinyin.vouwls), end(pinyin.vouwls), c) != end(pinyin.vouwls)) {
 							finalWord.append(Pinyin::getPinyinChar(c, Pinyin::findToneFromString(s)));
 							nonMedial += 1;
-							break;
-						default:
-
-							switch (c) {
-							case '1':
-							case '2':
-							case '3':
-							case '4':
-
-								break;
-							default:
-								finalWord.push_back(c);
-								break;
-							}
-
-							break;
 						}
+						else if (find(begin(pinyin.tones), end(pinyin.tones), c) == end(pinyin.tones)) {
+							finalWord.push_back(c);
+						}
+						
 					}
 					else if (nonMedial > 0) {
-						switch (c) {
-						case '1':
-						case '2':
-						case '3':
-						case '4':
-
-							break;
-						default:
+						if (find(begin(pinyin.tones), end(pinyin.tones), c) == end(pinyin.tones)) {
 							finalWord.push_back(c);
-							break;
 						}
 					}
-
-				}
-
-
-			
+				}		
 			}
-			
 		}
-
 		finalWord.push_back(' ');
 	}
-
-	/*_setmode(_fileno(stdout), _O_U16TEXT);
-	wprintf(L"%s", finalWord);*/
-
-
-
-
-
 
 	const wchar_t* result = finalWord.c_str();
 
@@ -268,7 +147,6 @@ wstring Pinyin::convertToPinyin(string pinyinOne) {
 	printf(L"%s", finalWord);
 #endif
 
-
 	return finalWord;
 }
 
@@ -279,9 +157,102 @@ wstring Pinyin::convertToPinyin(string pinyinOne) {
 //really hard coding, I am using every
 //possibility therefor it is not bad. (i think) 
 wstring Pinyin::getPinyinChar(char vowel, int tone) {
-
-
-
+	switch (vowel) {
+	case 'A':
+		switch (tone) {
+		case 1:
+			return L"Ā";
+			break;
+		case 2:
+			return L"Á";
+			break;
+		case 3:
+			return L"Ǎ";
+			break;
+		case 4:
+			return L"À";
+			break;
+		default:
+			break;
+			return L"";
+		}
+		break;
+	case 'E':
+		switch (tone) {
+		case 1:
+			return L"Ē";
+			break;
+		case 2:
+			return L"É";
+			break;
+		case 3:
+			return L"Ě";
+			break;
+		case 4:
+			return L"È";
+			break;
+		default:
+			break;
+		}
+		break;
+	case 'I':
+		switch (tone) {
+		case 1:
+			return L"Ī";
+			break;
+		case 2:
+			return L"Í";
+			break;
+		case 3:
+			return L"Ǐ";
+			break;
+		case 4:
+			return L"Ì";
+			break;
+		default:
+			break;
+		}
+		break;
+	case 'O':
+		switch (tone) {
+		case 1:
+			return L"Ō";
+			break;
+		case 2:
+			return L"Ó";
+			break;
+		case 3:
+			return L"Ǒ";
+			break;
+		case 4:
+			return L"Ò";
+			break;
+		default:
+			break;
+		}
+		break;
+	case 'U':
+		switch (tone) {
+		case 1:
+			return L"Ū";
+			break;
+		case 2:
+			return L"Ú";
+			break;
+		case 3:
+			return L"Ǔ";
+			break;
+		case 4:
+			return L"Ù";
+			break;
+		default:
+			break;
+		}
+		break;
+	default:
+		
+		break;
+	}
 	switch (vowel) {
 	case 'a':
 		switch (tone) {
@@ -384,21 +355,16 @@ wstring Pinyin::getPinyinChar(char vowel, int tone) {
 }
 
 int Pinyin::countVowels(wstring word) {
-	int vowels = 0;
+	int _vowels = 0;
+	Pinyin pinyin;
 	for (auto c : word) {
-		switch (c) {
-		case 'a':
-		case 'e':
-		case 'i':
-		case 'o':
-		case 'u':
-			vowels += 1;
-			break;
-		default:
-			break;
+		if (find(begin(pinyin.vouwls), end(pinyin.vouwls), c) != end(pinyin.vouwls)) {
+			_vowels += 1;
 		}
+		
+		
 	}
-	return vowels;
+	return _vowels;
 }
 
 int Pinyin::findToneFromString(const std::wstring& wstr) {
@@ -407,6 +373,8 @@ int Pinyin::findToneFromString(const std::wstring& wstr) {
 	if (w > L'0' && w < L'5') { return w - L'0'; }
 	else { return 0; }
 }
+
+
 
 Pinyin::~Pinyin() {
 

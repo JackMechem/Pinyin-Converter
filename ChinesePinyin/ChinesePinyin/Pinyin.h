@@ -18,6 +18,10 @@ public:
 	Pinyin();
 	~Pinyin();//deconstructor
 
+
+	
+	
+
 	static int countVowels(wstring word);
 
 	static wstring getPinyinChar(char vowel, int tone);
@@ -27,6 +31,8 @@ public:
 	static int findToneFromString(const std::wstring& wstr);
 
 private:
-
+	const char vouwls[10] = { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O','U' };
+	const char tones[4] = { '1', '2', '3', '4' };
+	const char medials[4] = { 'i', 'u', 'I', 'U' };
 };
 

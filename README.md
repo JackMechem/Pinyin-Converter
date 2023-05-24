@@ -2,7 +2,7 @@
 ![](https://drive.google.com/file/d/15Nn8KZqqetau19yvSJghJK2m5gXc6uoK/preview)
 
 ## DISCLAIMER
-### This project is in BETA, meaning their bugs and it does leak memory (probably).
+### This project is in BETA, meaning it will not work seamlessly and may leak memory!
 
 
 ## **Installation**
